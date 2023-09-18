@@ -1,19 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Gerenciamento de Nomess</title>
-  <link rel="stylesheet" type="text/css" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Nomes</title>
 </head>
 <body>
-  <h1>Lista de Nomes</h1>
-  <div>
-    <label for="nomeInput">Insira um nome:</label>
-    <input type="text" id="nomeInput">
+    <h1>Lista de Nomes</h1>
+    <ul id="lista-nomes">
+        <!-- Os nomes da lista serão inseridos aqui dinamicamente -->
+    </ul>
+    <input type="text" id="novo-nome" placeholder="Novo Nome">
     <button onclick="adicionarNome()">Adicionar</button>
-  </div>
-  
-  <ul id="nomeLista"></ul>
-
-  <script src="script.js"></script>
 </body>
 </html>
