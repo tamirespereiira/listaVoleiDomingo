@@ -1,5 +1,5 @@
-let listaPrincipal = [];
-let listaEspera = [];
+let listaPrincipal = JSON.parse(localStorage.getItem('listaPrincipal')) || [];
+let listaEspera = JSON.parse(localStorage.getItem('listaEspera')) || [];
 
 function adicionarNome() {
     const nome = document.getElementById("novo-nome").value;
@@ -8,13 +8,15 @@ function adicionarNome() {
         document.getElementById("novo-nome").value = ""; // Limpa o campo de entrada
         atualizarLista();
         registrarAcao("Adicionado: " + nome);
+        salvarListaNoLocalStorage();
     }
 }
 
 function excluirNome(index) {
-    listaPrincipal.splice(index, 1);
+    const nomeExcluido = listaPrincipal.splice(index, 1)[0];
     atualizarLista();
-    registrarAcao("Excluído: " + listaPrincipal[index]);
+    registrarAcao("Excluído: " + nomeExcluido);
+    salvarListaNoLocalStorage();
 }
 
 function moverParaListaEspera(index) {
@@ -22,6 +24,7 @@ function moverParaListaEspera(index) {
     listaEspera.push(nome);
     excluirNome(index);
     registrarAcao("Movido para Lista de Espera: " + nome);
+    salvarListaNoLocalStorage();
 }
 
 function atualizarLista() {
@@ -53,7 +56,11 @@ function criarBotaoMover(index) {
 function registrarAcao(acao) {
     const dataHora = new Date().toLocaleString();
     console.log(dataHora + " - " + acao);
-    // Aqui você pode implementar a lógica para registrar no banco de dados.
+}
+
+function salvarListaNoLocalStorage() {
+    localStorage.setItem('listaPrincipal', JSON.stringify(listaPrincipal));
+    localStorage.setItem('listaEspera', JSON.stringify(listaEspera));
 }
 
 // Inicializa a lista ao carregar a página
