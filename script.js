@@ -7,6 +7,7 @@ function adicionarNome() {
         listaPrincipal.push(nome);
         atualizarLista();
         registrarAcao("Adicionado: " + nome);
+        document.getElementById("novo-nome").value = "";  // Limpar o campo de entrada após adicionar
     }
 }
 
