@@ -11,7 +11,7 @@ function adicionarNome() {
     document.getElementById('nomeInput').value = '';
 
     // Armazena o nome no armazenamento local
-    salvarNomeNoArmazenamentoLocal(nome, dataHora);
+    salvarNomesNoArmazenamentoLocal();
   }
 }
 
@@ -21,36 +21,34 @@ function removerNome(botao) {
   itemParaRemover.remove();
 
   // Atualiza o armazenamento local após a remoção
-  atualizarArmazenamentoLocal();
+  salvarNomesNoArmazenamentoLocal();
 }
 
-// Função para salvar um nome no armazenamento local
-function salvarNomeNoArmazenamentoLocal(nome, dataHora) {
-  let nomesSalvos = JSON.parse(localStorage.getItem('nomes')) || [];
-  nomesSalvos.push({ nome, dataHora });
-  localStorage.setItem('nomes', JSON.stringify(nomesSalvos));
-}
-
-// Função para atualizar o armazenamento local após a remoção de um nome
-function atualizarArmazenamentoLocal() {
+// Função para salvar os nomes no armazenamento local
+function salvarNomesNoArmazenamentoLocal() {
   const lista = document.getElementById('nomeLista');
-  const nomesSalvos = [];
+  const nomes = [];
+
   for (let i = 0; i < lista.children.length; i++) {
     const item = lista.children[i];
     const [nome] = item.textContent.split(' - ');
     const dataHora = item.textContent.match(/\d{1,2}\/\d{1,2}\/\d{4}, \d{2}:\d{2}:\d{2}/)[0];
-    nomesSalvos.push({ nome, dataHora });
+    nomes.push({ nome, dataHora });
   }
-  localStorage.setItem('nomes', JSON.stringify(nomesSalvos));
+
+  localStorage.setItem('nomes', JSON.stringify(nomes));
 }
 
 // Carrega os nomes do armazenamento local ao carregar a página
 window.onload = function () {
   const nomesSalvos = JSON.parse(localStorage.getItem('nomes')) || [];
-  const lista = document.getElementById('nomeLista');
-  for (const nomeSalvo of nomesSalvos) {
-    const novoItem = document.createElement('li');
-    novoItem.innerHTML = `${nomeSalvo.nome} - Inserido em: ${nomeSalvo.dataHora} <button onclick="removerNome(this)">Remover</button>`;
-    lista.appendChild(novoItem);
+
+  if (nomesSalvos.length > 0) {
+    const lista = document.getElementById('nomeLista');
+    nomesSalvos.forEach(nomeSalvo => {
+      const novoItem = document.createElement('li');
+      novoItem.innerHTML = `${nomeSalvo.nome} - Inserido em: ${nomeSalvo.dataHora} <button onclick="removerNome(this)">Remover</button>`;
+      lista.appendChild(novoItem);
+    });
   }
 };
