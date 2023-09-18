@@ -1,54 +1,22 @@
-// Função para adicionar um nome
-function adicionarNome() {
-  const nome = document.getElementById('nomeInput').value;
-  const lista = document.getElementById('nomeLista');
+let contador = 1; // Inicializa o contador
 
-  if (nome !== '') {
-    const dataHora = new Date().toLocaleString();
+// Função para adicionar um número à lista
+function adicionarNumero() {
+  const lista = document.getElementById('numeroLista');
+
+  if (contador <= 28) {
     const novoItem = document.createElement('li');
-    novoItem.innerHTML = `${nome} - Inserido em: ${dataHora} <button onclick="removerNome(this)">Remover</button>`;
+    novoItem.textContent = contador;
     lista.appendChild(novoItem);
-    document.getElementById('nomeInput').value = '';
-
-    // Armazena o nome no armazenamento local
-    salvarNomesNoArmazenamentoLocal();
+    contador++;
+  } else {
+    // Quando atingir 28, reinicie a contagem
+    const novoTitulo = document.createElement('h2');
+    novoTitulo.textContent = 'Lista de Espera';
+    lista.appendChild(novoTitulo);
+    contador = 1; // Reinicia o contador
   }
 }
 
-// Função para remover um nome
-function removerNome(botao) {
-  const itemParaRemover = botao.parentNode;
-  itemParaRemover.remove();
-
-  // Atualiza o armazenamento local após a remoção
-  salvarNomesNoArmazenamentoLocal();
-}
-
-// Função para salvar os nomes no armazenamento local
-function salvarNomesNoArmazenamentoLocal() {
-  const lista = document.getElementById('nomeLista');
-  const nomes = [];
-
-  for (let i = 0; i < lista.children.length; i++) {
-    const item = lista.children[i];
-    const [nome] = item.textContent.split(' - ');
-    const dataHora = item.textContent.match(/\d{1,2}\/\d{1,2}\/\d{4}, \d{2}:\d{2}:\d{2}/)[0];
-    nomes.push({ nome, dataHora });
-  }
-
-  localStorage.setItem('nomes', JSON.stringify(nomes));
-}
-
-// Carrega os nomes do armazenamento local ao carregar a página
-window.onload = function () {
-  const nomesSalvos = JSON.parse(localStorage.getItem('nomes')) || [];
-
-  if (nomesSalvos.length > 0) {
-    const lista = document.getElementById('nomeLista');
-    nomesSalvos.forEach(nomeSalvo => {
-      const novoItem = document.createElement('li');
-      novoItem.innerHTML = `${nomeSalvo.nome} - Inserido em: ${nomeSalvo.dataHora} <button onclick="removerNome(this)">Remover</button>`;
-      lista.appendChild(novoItem);
-    });
-  }
-};
+// Chama a função ao carregar a página
+window.onload = adicionarNumero;
