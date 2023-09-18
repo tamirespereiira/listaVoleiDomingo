@@ -55,3 +55,8 @@ function registrarAcao(acao) {
     console.log(dataHora + " - " + acao);
     // Aqui você pode implementar a lógica para registrar no banco de dados.
 }
+
+// Inicializa a lista ao carregar a página
+window.onload = () => {
+    atualizarLista();
+};
