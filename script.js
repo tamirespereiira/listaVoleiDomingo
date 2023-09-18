@@ -5,9 +5,9 @@ function adicionarNome() {
     const nome = document.getElementById("novo-nome").value;
     if (nome && listaPrincipal.length < 28) {
         listaPrincipal.push(nome);
+        document.getElementById("novo-nome").value = ""; // Limpa o campo de entrada
         atualizarLista();
         registrarAcao("Adicionado: " + nome);
-        document.getElementById("novo-nome").value = "";  // Limpar o campo de entrada após adicionar
     }
 }
 
